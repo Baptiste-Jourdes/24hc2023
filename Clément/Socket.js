@@ -44,12 +44,12 @@ browser.on('update', function(data) {
 //         }
 //       });
 //     }
-
-    //server.on('message');
-    //console.log('Connected to service');
-
-
-      // Utilisez le socket pour communiquer avec le service
-    //});
+//
+//     server.on('message');
+//     console.log('Connected to service');
+//
+//
+//       Utilisez le socket pour communiquer avec le service
+//     });
   }
 });
