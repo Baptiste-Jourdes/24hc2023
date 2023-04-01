@@ -41,15 +41,10 @@ browser.on('update', function(data) {
     })
 
     var trame = {RSSI: [3,5], IR: [9,2], SIMU: [11, 7] ,HEADLIGHTS: [17, 3], COLOR: [3,7], BATTERY: [11,5], IMU: [15, 13] ,PILOTS: [28, 6]};
-
+	var hasfirst = false;
     socket.on('message', (msg, remote) => {
-      //console.log(msg)
-      if(msg.length == 20) {
-        //console.log(msg.slice(trame.RSSI[0], trame.RSSI[0]+trame.RSSI[1]).toString('hex'));
-        if(msg.slice(trame.RSSI[0], trame.RSSI[0]+trame.RSSI[1]).toString('hex') == '01c2ffffff') {
-          console.log(msg.slice(trame.HEADLIGHTS[0], trame.HEADLIGHTS[0] + trame.HEADLIGHTS[1]))
-        }
-      }
+      console.log(msg)
+      
 
     })
 

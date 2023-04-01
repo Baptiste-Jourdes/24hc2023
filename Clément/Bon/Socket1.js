@@ -55,7 +55,17 @@ function Server()
 
  console.log("go")
   socket.on('message', (msg, remote) => {
-   console.log(msg)
+   if(msg.length == 20 && !hasfirst) {
+        //console.log(msg.slice(trame.RSSI[0], trame.RSSI[0]+trame.RSSI[1]).toString('hex'));
+        if(msg.slice(trame.RSSI[0], trame.RSSI[0]+trame.RSSI[1]).toString('hex') == '01c2ffffff') {
+			hasfirst = true;
+          console.log(msg.slice(trame.HEADLIGHTS[0], trame.HEADLIGHTS[0] + trame.HEADLIGHTS[1]))
+        }
+      }else if(msg.length == 31 && hasfirst){
+		  
+		  console.log(msg.slice(trame.COLOR[0], trame.COLOR[0] + trame.COLOR[1]))
+		  hasFirst = false;
+	  }
    
 
  })
