@@ -8,6 +8,7 @@ browser.on('ready', function() {
   browser.discover();
 });
 browser.on('update', function(data) {
+  console.log(data);
   if (data.type === serviceType) {
     console.log('Service up: ', data.fullname, data.addresses);
 
