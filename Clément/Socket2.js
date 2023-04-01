@@ -61,6 +61,7 @@ function Server()
             console.log(remote.address)
             console.log('Voiture 6')
             console.log(msg)
+            console.log(msg.length)
 
             if (msg.length == 31) {
                 //console.log(msg.slice(trame.RSSI[0], trame.RSSI[0]+trame.RSSI[1]).toString('hex'));
