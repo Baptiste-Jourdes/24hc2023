@@ -7,7 +7,7 @@ let mytab =[["nom","ip","port"]]
 var nom=""
 var Text ="43495302000000000000"
 const instance = new mdns.Bonjour()
-
+var head_test = true;
 const dgram = require('dgram');
 const socket = dgram.createSocket('udp4');
 const client = dgram.createSocket('udp4');
@@ -193,6 +193,9 @@ let qPressed = false;
       case 'z':
         timer =setTimeout(mouvment,25)
         break;
+      case 's':
+        timer =setTimeout(marche_arriere,25) //nouvelle case
+        break;
       default:
         timer =setTimeout(arrete,25)
         break;
@@ -224,7 +227,7 @@ function mouvment()
 function tourne_gauche()
 {
   console.log("tourne_gauche")
-  frame = new Uint8Array([0x43, 0x49, 0x53, 0x02 , 0x00 , 0x00 ,0x00 ,0x00 ,0x00 ,0x00, 0x10,0x01, 0x11, 0x0f, 0xa0, 0x1f,0xfe ])
+  frame = new Uint8Array([0x43, 0x49, 0x53, 0x02 , 0x00 , 0x00 ,0x00 ,0x00 ,0x00 ,0x00, 0x10,0x01, 0x11, 0x00, 0x32,0x80,0x01  ])//changer
   client.send(frame, 0, frame.length, 4210/*mytab[nom][2]*/, /*"192.168.0.107"*/mytab[nom][1][0], (err) => {
     if (err) {
       console.error(`Erreur lors de l'envoi du message : ${err}`);
@@ -239,7 +242,7 @@ function tourne_gauche()
 function tourne_droite()
 {
   console.log("tourne_droite")
-  frame = new Uint8Array([0x43, 0x49, 0x53, 0x02 , 0x00 , 0x00 ,0x00 ,0x00 ,0x00 ,0x00, 0x10,0x01, 0x11, 0x0f, 0xa0, 0xe0,0x02 ])
+  frame = new Uint8Array([0x43, 0x49, 0x53, 0x02 , 0x00 , 0x00 ,0x00 ,0x00 ,0x00 ,0x00, 0x10,0x01, 0x11, 0x00, 0x32,0x7f,0xff ])//changer
   client.send(frame, 0, frame.length, 4210/*mytab[nom][2]*/, /*"192.168.0.107"*/mytab[nom][1][0], (err) => {
     if (err) {
       console.error(`Erreur lors de l'envoi du message : ${err}`);
@@ -266,5 +269,53 @@ function arrete()
     }
   });
 }
+//nouvelle fonction
+function marche_arriere()
+{
+  console.log("arrete")
+  frame = new Uint8Array([0x43, 0x49, 0x53, 0x02 , 0x00 , 0x00 ,0x00 ,0x00 ,0x00 ,0x00, 0x10,0x01, 0x11, 0xe0, 0x02, 0x00,0x00 ])
+  client.send(frame, 0, frame.length, 4210/*mytab[nom][2]*/, /*"192.168.0.107"*/mytab[nom][1][0], (err) => {
+    if (err) {
+      console.error(`Erreur lors de l'envoi du message : ${err}`);
+    } else {
+      console.log('Message envoyé avec succès.');
 
+    }
+  });
+}
+
+function headlight()
+{
+  if(head_test)
+  {
+   
+  frame = new Uint8Array([0x43, 0x49, 0x53, 0x02 , 0x00 , 0x00 ,0x00 ,0x00 ,0x00 ,0x00, 0x10,0x01, 0x12, 0xe0, 0x02, ])
+  client.send(frame, 0, frame.length, 4210/*mytab[nom][2]*/, /*"192.168.0.107"*/mytab[nom][1][0], (err) => {
+    if (err) {
+      console.error(`Erreur lors de l'envoi du message : ${err}`);
+    } else {
+      console.log('Message envoyé avec succès.');
+
+    }
+  });
+
+    
+  }
+  else{
+    
+    frame = new Uint8Array([0x43, 0x49, 0x53, 0x02 , 0x00 , 0x00 ,0x00 ,0x00 ,0x00 ,0x00, 0x10,0x01, 0x12, 0x00, 0x00, ])
+    client.send(frame, 0, frame.length, 4210/*mytab[nom][2]*/, /*"192.168.0.107"*/mytab[nom][1][0], (err) => {
+      if (err) {
+        console.error(`Erreur lors de l'envoi du message : ${err}`);
+      } else {
+        console.log('Message envoyé avec succès.');
+  
+      }
+    });
+  
+
+  }
+  head_test=!head_test
+  
+}
 
