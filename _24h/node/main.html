@@ -26,9 +26,9 @@
         let affichage = document.getElementById("affichage");
         console.log("CouCou");
         for (let i = 0; i < mytab.length; i++) {
-            let nom = mytab[i][0];
-            let ip = mytab[i][1];
-            let port = mytab[i][2];
+            let nom = mytab[i][1];
+            let ip = mytab[i][2];
+            let port = mytab[i][0];
 
             let option = document.createElement("option");
             option.text = nom;
