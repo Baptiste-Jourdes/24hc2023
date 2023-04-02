@@ -4,7 +4,7 @@ let mytab = [];//[["nom","ip","port"]]
 var nom=""
 const instance = new mdns.Bonjour()
 const dgram = require('dgram');
-const socketReceive = dgram.createSocket('udp4');
+//const socketReceive = dgram.createSocket('udp4');
 
 // advertise an arduino server on port 8266
 instance.publish({name: 'My Web Server',type: 'arduino',  port: 8266 })
@@ -61,7 +61,7 @@ function Init() {
             console.log("Voiture Selectionné");
             console.log(nom);
             //Server();
-
+            const socketReceive = dgram.createSocket('udp4');
 
             socketReceive.bind(4211)
             socketReceive.on("listening", function() {
@@ -79,7 +79,17 @@ function Init() {
                     console.log(msg.length)
 
                     if (msg.length == 34) { //20
-                        console.log(msg.slice(trame.COLOR[0], trame.COLOR[0] + trame.COLOR[1]))
+                        var Battery = msg.slice(trame.BATTERY[0], trame.BATTERY[0] + trame.BATTERY[1])
+                        console.log(Battery)
+                        Battery = Battery.slice(3,5)
+                        var temp = Battery[1]
+                        Battery[1] = Battery[0]
+                        Battery[0] = temp
+                        console.log(parseInt(Battery, 16))
+                        console.log(100 - parseInt(Battery, 16) /100)
+                    }
+                    if (msg.length == 20) { //20
+                        console.log(msg.slice(trame.IMU[0], trame.IMU[0] + trame.IMU[1]))
                     }
                 }
 
