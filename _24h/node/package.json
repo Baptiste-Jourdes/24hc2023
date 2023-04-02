@@ -1,6 +1,10 @@
 {
   "dependencies": {
     "bonjour": "^3.5.0",
-    "mdns-js": "^1.0.3"
+    "bonjour-service": "^1.1.1",
+    "express": "^4.18.2",
+    "mdns-js": "^1.0.3",
+    "socket.io": "^4.6.1",
+    "window": "^4.2.7"
   }
 }

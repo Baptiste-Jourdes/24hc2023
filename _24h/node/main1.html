@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exemple de tableau dans un selecteur</title>
+    <Link rel = "StyleSheet" href = "main.css" type = "text / css" />
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<script>
+    function convertToTab(json) {
+        var data = JSON.parse(json);
+        var headers = Object.keys(data[0]);
+        var result = [headers];
+
+        data.forEach(function(obj) {
+            var row = [];
+            headers.forEach(function(header) {
+                row.push(obj[header]);
+            });
+            result.push(row);
+        });
+        console.log(result);
+        return result;
+    }
+    function selecteur(mytab){
+        let selecteur = document.getElementById("selecteur");
+        let affichage = document.getElementById("affichage");
+        console.log("CouCou");
+        for (let i = 0; i < mytab.length; i++) {
+            let nom = mytab[i][0];
+            let ip = mytab[i][1];
+            let port = mytab[i][2];
+
+            let option = document.createElement("option");
+            option.text = nom;
+            selecteur.add(option);
+
+            option.addEventListener("click", function() {
+                affichage.innerHTML = "IP : " + ip + ", port : " + port;
+            });
+        }
+    }
+</script>
+<body>
+<h1>Exemple de tableau dans un selecteur</h1>
+<label for="selecteur">Choisir un nom :</label>
+<select id="selecteur"></select>
+<p id="affichage"></p>
+<h1>Exemple de transmission de JSON</h1>
+<div id="json-container"></div>
+<script>
+
+    var socket = io();
+    socket.on('json', function(json) {
+        document.getElementById('json-container').innerHTML = JSON.stringify(json);
+        let jsonvoiture=json;
+        console.log(jsonvoiture);
+        let mytab1=convertToTab(jsonvoiture);
+        let mytab = [
+            ["nom", "ip", "port"],
+            ["nom1", "ip1", "port1"]
+        ];
+        selecteur(mytab1);
+    });
+</script>
+</body>
+</html>
+
+<script>
+
+    var socket2 = io();
+    socket.on('json', function(json) {
+        document.getElementById('json-container').innerHTML = JSON.stringify(json);
+    });
+    var socket1 = io('http://localhost');
+    // let selecteur = document.getElementById("selecteur");
+    // let affichage = document.getElementById("affichage");
+    // console.log("CouCou");
+    // for (let i = 0; i < mytab.length; i++) {
+    //     let nom = mytab[i][0];
+    //     let ip = mytab[i][1];
+    //     let port = mytab[i][2];
+    //
+    //     let option = document.createElement("option");
+    //     option.text = nom;
+    //     selecteur.add(option);
+    //
+    //     option.addEventListener("click", function() {
+    //         affichage.innerHTML = "IP : " + ip + ", port : " + port;
+    //     });
+    // }
+
+    const json = '{"result":true, "count":42}';
+    const obj = JSON.parse(json);
+    socket1.emit('change', obj);
+
+
+
+
+</script>
+<script>
+    console.log("Script2")
+    socket1.on('connection', function (socket) {
+        socket.emit('welcome', { message: 'Vous êtes connecté au chat !' });
+        socket.on('message', function (data) {
+            console.log('Message: ' + data);
+            socket.broadcast.emit('message', {message: data});
+        });
+        socket.on('change', function (data) {
+            console.log('Change: ' + data['a1']['R']);
+            Change(data);
+        });
+    });
+</script>

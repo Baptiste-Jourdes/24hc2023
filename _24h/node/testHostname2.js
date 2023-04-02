@@ -4,6 +4,6 @@ var bonjour = require('bonjour')()
 bonjour.publish({ name: 'CarNode-Simu6.local', type: 'arduino', port: 23 })
 
 // browse for all http services
-bonjour.find({ type: 'arduino' }, function (service) {
+bonjour.find({ name: 'CarNode-Simu6.local', type: 'arduino' }, function (service) {
     console.log('Found an HTTP server:', service)
 })

@@ -59,14 +59,12 @@ function Server()
     socket.on('message', (msg, remote) => {
         if(remote.address == mytab[nom][1][0]) {
             console.log(remote.address)
-            console.log('Voiture 6')
             console.log(msg)
             console.log(msg.length)
 
-            if (msg.length == 31) {
+            if (msg.length == 34) { //20
                 //console.log(msg.slice(trame.RSSI[0], trame.RSSI[0]+trame.RSSI[1]).toString('hex'));
                 //if (msg.slice(trame.RSSI[0], trame.RSSI[0] + trame.RSSI[1]).toString('hex') == '01c2ffffff') {
-
                     console.log(msg.slice(trame.COLOR[0], trame.COLOR[0] + trame.COLOR[1]))
                 //}
             }
