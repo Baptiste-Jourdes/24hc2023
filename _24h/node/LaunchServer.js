@@ -49,6 +49,7 @@ function Init() {
 
     io.on('connection', function (socket) {
         socket.emit('json', json);
+
         socket.emit('welcome', {message: 'Vous êtes connecté au chat !'});
         socket.on('message', function (data) {
             console.log('Message: ' + data);
@@ -89,7 +90,13 @@ function Init() {
                         console.log(100 - parseInt(Battery.toString('hex'),16) /100)
                         Battery = 100 - parseInt(Battery.toString('hex'),16) /100;
                         data.Battery = Battery
-                        socket.emit("baterie",Battery);
+                        let tabbattery=[Battery];
+                        console.log("zezaaezezeazazeeazezeaazeeazza")
+                        console.log(tabbattery);
+                        let jsonbatt=JSON.stringify(tabbattery);
+                        console.log(jsonbatt);
+
+                        socket.broadcast.emit('baterie',jsonbatt);
 
                     }
                     if (msg.length == 20) { //20
@@ -109,6 +116,7 @@ function Init() {
         })
 
     });
+
 
 }
 

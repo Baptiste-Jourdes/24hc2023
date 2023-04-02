@@ -65,6 +65,10 @@
     }
     function ActualiserBatterie(nivbatterie){
         let color
+        console.log(nivbatterie);
+        document.getElementById('battery_value').style.cssText = "--percentage:"+nivbatterie+"%;"
+        document.getElementById('battery_label').innerHTML = nivbatterie+"%"
+
     }
 </script>
 <body>
@@ -82,8 +86,8 @@
 
 
     <div>
-    <div class="half-arc" style="--percentage:35%;">
-        <span classlabel">25%</span>
+    <div class="half-arc" id="battery_value" style="--percentage:35%;">
+        <span id="battery_label" class ="label">25%</span>
 
     </div>
         <span style="color: wheat">Batterie</span>
@@ -108,6 +112,16 @@
 <script>
 
     var socket = io();
+    socket.on('baterie', function(json) {
+        console.log("coucou bat");
+        console.log(json)
+        let batterie=json;
+        console.log(batterie);
+        let floatbatterie=parseInt(JSON.parse(batterie));
+        console.log(floatbatterie);
+        ActualiserBatterie(floatbatterie)
+    });
+
     socket.on('json', function(json) {
         let jsonvoiture=json;
         console.log(jsonvoiture);
@@ -115,13 +129,6 @@
         selecteur(mytab1);
     });
 
-    socket.on('baterie', function(json) {
-        console.log(json)
-        let batterie=json;
-        console.log(batterie);
-        let floatbatterie=parseInt(JSON.parse(batterie));
-        console.log(floatbatterie);
-    });
 </script>
 </body>
 </html>
