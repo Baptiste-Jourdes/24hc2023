@@ -53,7 +53,20 @@ function Server()
    console.log('Multicast listening . . . ')
  })
 
-    var trame = {RSSI: [3,5], IR: [9,2], SIMU: [11, 7] ,HEADLIGHTS: [17, 3], COLOR: [3,7], BATTERY: [11,5], IMU: [15, 13] ,PILOTS: [28, 6]};
+ console.log("go")
+  socket.on('message', (msg, remote) => {
+   if(msg.length == 20 && !hasfirst) {
+        //console.log(msg.slice(trame.RSSI[0], trame.RSSI[0]+trame.RSSI[1]).toString('hex'));
+        if(msg.slice(trame.RSSI[0], trame.RSSI[0]+trame.RSSI[1]).toString('hex') == '01c2ffffff') {
+			hasfirst = true;
+          console.log(msg.slice(trame.HEADLIGHTS[0], trame.HEADLIGHTS[0] + trame.HEADLIGHTS[1]))
+        }
+      }else if(msg.length == 31 && hasfirst){
+		  
+		  console.log(msg.slice(trame.COLOR[0], trame.COLOR[0] + trame.COLOR[1]))
+		  hasFirst = false;
+	  }
+   
 
     socket.on('message', (msg, remote) => {
         //console.log(msg)
