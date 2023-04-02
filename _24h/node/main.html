@@ -63,6 +63,9 @@
 
 
     }
+    function ActualiserBatterie(nivbatterie){
+        let color
+    }
 </script>
 <body>
 
@@ -112,11 +115,12 @@
         selecteur(mytab1);
     });
 
-    socket.on('Trame0', function(json) {
-        let jsonvoiture=json;
-        console.log(jsonvoiture);
-        let mytab1=convertToTab(jsonvoiture);
-        selecteur(mytab1);
+    socket.on('baterie', function(json) {
+        console.log(json)
+        let batterie=json;
+        console.log(batterie);
+        let floatbatterie=parseInt(JSON.parse(batterie));
+        console.log(floatbatterie);
     });
 </script>
 </body>
