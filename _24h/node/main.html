@@ -97,7 +97,7 @@
 <button onclick="Sendidvoiture()">
     Selctionner
 </button>
-<div>
+<div style="display: inline-block">
     <input type="color" id="colorsCars" name="head"
            value="#e66465">
     <label for="colorsCars">Couleur de la voiture</label>
@@ -111,6 +111,7 @@
         let mytab1=convertToTab(jsonvoiture);
         selecteur(mytab1);
     });
+
 </script>
 </body>
 </html>
@@ -216,9 +217,9 @@
         background: none;
         border: 0;
         cursor: pointer;
-        height: 15em;
+        height: 75px;
         padding: 0;
-        width: 15em;
+        width: 75px;
     }
 
     *:focus{
@@ -287,7 +288,7 @@
 
     body {
         margin-top: 80px;
-        background-color: #1A004A;
+        background-color: rgba(192, 180, 210, 0.91);
     }
     * {
         border: 0;
