@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exemple de tableau dans un selecteur</title>
+    <Link rel = "StyleSheet" href = "main.css" type = "text / css" />
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<script>
+    function convertToTab(json) {
+        var data = JSON.parse(json);
+        var headers = Object.keys(data[0]);
+        var result = [headers];
+
+        data.forEach(function(obj) {
+            var row = [];
+            headers.forEach(function(header) {
+                row.push(obj[header]);
+            });
+            result.push(row);
+        });
+        console.log(result);
+        return result;
+    }
+    function selecteur(mytab){
+        let selecteur = document.getElementById("selecteur");
+        let affichage = document.getElementById("affichage");
+        console.log("CouCou");
+        for (let i = 0; i < mytab.length; i++) {
+            let nom = mytab[i][0];
+            let ip = mytab[i][1];
+            let port = mytab[i][2];
+
+            let option = document.createElement("option");
+            option.text = nom;
+            option.value=ip;
+            selecteur.add(option);
+
+            option.addEventListener("click", function() {
+                affichage.innerHTML = "IP : " + ip + ", port : " + port;
+            });
+        }
+    }
+    function Sendidvoiture(){
+        SendColorVoiture();
+        let id_voiture=document.getElementById("selecteur").value;
+        var sel = document.getElementById("selecteur");
+        var nom_voiture= sel.options[sel.selectedIndex].text;
+        let tab=[id_voiture,nom_voiture];
+        console.log(tab);
+        let jsontab=JSON.stringify(tab);
+        console.log(jsontab);
+        var socket = io();
+        socket.emit('getIdvoitureSelected',jsontab);
+
+    }
+    function SendColorVoiture(){
+        let color_voiture=document.getElementById("colorsCars").value;
+        console.log(color_voiture);
+        let jsoncolor=JSON.stringify(color_voiture);
+        console.log(jsoncolor);
+        var socket = io();
+        socket.emit('getColorSelectect',jsoncolor);
+
+
+    }
+</script>
+<body>
+<h1>Selection de la voiture</h1>
+<label for="selecteur">Choisir voiture :</label>
+<select id="selecteur"></select>
+<p id="affichage"></p>
+<button onclick="Sendidvoiture()">
+    Selctionner
+</button>
+<div>
+    <input type="color" id="colorsCars" name="head"
+           value="#e66465">
+    <label for="colorsCars">Couleur de la voiture</label>
+</div>
+<script>
+
+    var socket = io();
+    socket.on('json', function(json) {
+        let jsonvoiture=json;
+        console.log(jsonvoiture);
+        let mytab1=convertToTab(jsonvoiture);
+        selecteur(mytab1);
+    });
+</script>
+</body>
+</html>
+
