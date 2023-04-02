@@ -4,7 +4,7 @@ let mytab = [];//[["nom","ip","port"]]
 var nom=""
 const instance = new mdns.Bonjour()
 const dgram = require('dgram');
-const socketReceive = dgram.createSocket('udp4');
+//const socketReceive = dgram.createSocket('udp4');
 
 // advertise an arduino server on port 8266
 instance.publish({name: 'My Web Server',type: 'arduino',  port: 8266 })
@@ -61,7 +61,7 @@ function Init() {
             console.log("Voiture Selectionné");
             console.log(nom);
             //Server();
-
+            const socketReceive = dgram.createSocket('udp4');
 
             socketReceive.bind(4211)
             socketReceive.on("listening", function() {
@@ -71,7 +71,7 @@ function Init() {
             })
 
             var trame = {RSSI: [3,5], IR: [9,2], SIMU: [11, 7] ,HEADLIGHTS: [17, 3], COLOR: [3,7], BATTERY: [11,5], IMU: [15, 13] ,PILOTS: [28, 6]};
-
+            var data = {Battery: 100, Vitesse: 0}
             socketReceive.on('message', (msg, remote) => {
                 if(remote.address == selectedCar[0]) {
                     console.log(remote.address)
@@ -79,7 +79,21 @@ function Init() {
                     console.log(msg.length)
 
                     if (msg.length == 34) { //20
-                        console.log(msg.slice(trame.COLOR[0], trame.COLOR[0] + trame.COLOR[1]))
+                        var Battery = msg.slice(trame.BATTERY[0], trame.BATTERY[0] + trame.BATTERY[1])
+                        console.log(Battery)
+                        Battery = Battery.slice(3,5)
+                        var temp = Battery[1]
+                        Battery[1] = Battery[0]
+                        Battery[0] = temp
+                        console.log(parseInt(Battery.toString('hex'),16))
+                        console.log(100 - parseInt(Battery.toString('hex'),16) /100)
+                        Battery = 100 - parseInt(Battery.toString('hex'),16) /100;
+                        data.Battery = Battery
+                        socket.emit("baterie",Battery);
+
+                    }
+                    if (msg.length == 20) { //20
+                        console.log(msg.slice(trame.IMU[0], trame.IMU[0] + trame.IMU[1]))
                     }
                 }
 

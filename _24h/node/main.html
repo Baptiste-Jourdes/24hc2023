@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Exemple de tableau dans un selecteur</title>
-    <Link rel = "StyleSheet" href = "main.css" type = "text / css" />
+
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <script>
@@ -63,11 +63,39 @@
 
 
     }
+    function ActualiserBatterie(nivbatterie){
+        let color
+    }
 </script>
 <body>
-<h1>Selection de la voiture</h1>
-<label for="selecteur">Choisir voiture :</label>
-<select id="selecteur"></select>
+
+<div style="display: inline-flex;text-align: center">
+    <div>
+
+    <div class="half-arc" style="--percentage:35%;">
+        <span class="label">25%</span> <br>
+
+    </div>
+        <span style="color: wheat">Vitesse</span>
+    </div>
+
+
+
+    <div>
+    <div class="half-arc" style="--percentage:35%;">
+        <span classlabel">25%</span>
+
+    </div>
+        <span style="color: wheat">Batterie</span>
+
+    </div>
+
+
+
+</div>
+
+<label class="custom-select" for="selecteur"></label>
+<select id="selecteur" class="custom-select"></select>
 <p id="affichage"></p>
 <button onclick="Sendidvoiture()">
     Selctionner
@@ -86,7 +114,383 @@
         let mytab1=convertToTab(jsonvoiture);
         selecteur(mytab1);
     });
+
+    socket.on('baterie', function(json) {
+        console.log(json)
+        let batterie=json;
+        console.log(batterie);
+        let floatbatterie=parseInt(JSON.parse(batterie));
+        console.log(floatbatterie);
+    });
 </script>
 </body>
 </html>
+<style>
+    html, body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        font-size: 32px;
+        gap: 40px;
+    }
 
+    .half-arc {
+        position: relative;
+        width: 200px;
+        height: 100px;
+        border-top-left-radius: 120px;
+        border-top-right-radius: 120px;
+        border-bottom: 0;
+        background: #d9d9d9;
+        box-sizing: border-box;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .half-arc:before {
+        content: "";
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 200%;
+        border-radius: 50%;
+        background-image: conic-gradient(#9c27b0, #3f51b5 calc(var(--percentage, 0) / 2), #bbb 0);
+        transition: transform .5s ease-in-out;
+        z-index: 1;
+        transform: rotate(270deg);
+    }
+
+    .half-arc:after {
+        content: "";
+        position: absolute;
+        display: block;
+        background: #dddddd;
+        z-index: 2;
+        width: calc(100% - 32px);
+        height: calc(200% - 32px);
+        border-radius: 50%;
+        top: 16px;
+        left: 16px;
+    }
+
+    .half-arc span {
+        color: #673ab7;
+        z-index: 3;
+        text-align: center;
+    }
+    html, body{
+        height: 100%;
+        width: 100%;
+    }
+
+    html{
+        font: 2.2vh Helvetica-Neue, Helvetica, sans-serif;
+    }
+
+    body{
+        align-items: center;
+        background: whitesmoke;
+        display: flex;
+        justify-content: center;
+    }
+
+    #swatch{
+        background: white;
+        box-shadow: 1em 1em 1em rgba(0, 0, 0, .1);
+        display: flex;
+        flex-direction: column;
+    }
+
+    #swatch .info{
+        padding: 1em;
+    }
+
+    #swatch h1{
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    #swatch h2{
+        font-weight: normal;
+        margin: 0;
+    }
+
+    input[type="color"] {
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        background: none;
+        border: 0;
+        cursor: pointer;
+        height: 75px;
+        padding: 0;
+        width: 75px;
+    }
+
+    *:focus{
+        border-radius: 0;
+        outline: none;
+    }
+
+    ::-webkit-color-swatch-wrapper {
+        padding: 0;
+    }
+
+    ::-webkit-color-swatch{
+        border: 0;
+        border-radius: 0;
+    }
+
+    ::-moz-color-swatch,
+    ::-moz-focus-inner{
+        border: 0;
+    }
+
+    ::-moz-focus-inner{
+        padding: 0;
+    }
+    @charset "UTF-8";
+    .custom-select {
+        position: relative;
+        display: block;
+        max-width: 400px;
+        min-width: 180px;
+        margin: 0 auto;
+
+        background-color: #16013E;
+        z-index: 10;
+        color: wheat;
+    }
+    .custom-select select {
+        border: none;
+        outline: none;
+        background: transparent;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0;
+        margin: 0;
+        display: block;
+        width: 100%;
+        padding: 12px 55px 15px 15px;
+        font-size: 14px;
+        color: #714BB9;
+    }
+    .custom-select:after {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 50px;
+        height: 100%;
+
+
+        text-align: center;
+        color: #714BB9;
+        font-size: 24px;
+        border-left: 1px solid #3C1C78;
+        z-index: -1;
+    }
+
+    body {
+        margin-top: 80px;
+        background-color: rgba(192, 180, 210, 0.91);
+    }
+    * {
+        border: 0;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    :root {
+        --bg: #e3e4e8;
+        --fg: #17181c;
+        --transDur: 0.1s;
+        font-size: calc(20px + (40 - 20)*(100vw - 320px)/(2560 - 320));
+    }
+    body, form {
+        display: flex;
+    }
+    body, input {
+        color: var(--fg);
+        font: 1em/1.5 Helvetica, sans-serif;
+    }
+
+    form, label {
+        width: 100%;
+    }
+    form {
+        margin: auto;
+        max-width: 24em;
+        padding: 0 1.5em;
+    }
+    label {
+        display: block;
+        text-align: center;
+        -webkit-tap-highlight-color: transparent;
+    }
+    label:first-child input {
+        border-radius: 0.5em 0 0 0.5em;
+        box-shadow:
+                0.1em 0 0 #2726267f inset,
+                -0.1em 0 0 #27262600 inset,
+                0 0.1em 0 #afa490 inset,
+                0 -0.1em 0 #ffffff3f,
+                0 0.2em 0.5em #0000007f,
+                0 -0.1em 0 #926086 inset,
+                -0.1em -0.2em 0 #ffffff7f inset,
+                0.2em 0 0 #ffffff7f inset;
+    }
+    label:last-child input {
+        border-radius: 0 0.5em 0.5em 0;
+        box-shadow:
+                0 -0.1em 0 #926086 inset,
+                0.1em 0 0 #2726267f inset,
+                -0.1em 0 0 #2726267f inset,
+                0 0.1em 0 #afa490 inset,
+                -0.1em 0 0 #afa490 inset,
+                0 -0.1em 0 #ffffff3f,
+                0 0.2em 0.5em #0000007f,
+                -0.1em -0.1em 0 0.1em #ffffff7f inset;
+    }
+    label:first-child input:checked {
+        box-shadow:
+                0.1em 0 0 #272626af inset,
+                -0.1em 0 0 #272626 inset,
+                0 0.1em 0 #847a62 inset,
+                0 -0.1em 0 #ffffff3f,
+                0 0.1em 0 #ffffff7f,
+                0 -0.1em 0 #722257 inset,
+                -0.1em -0.2em 0 #ffffff7f inset,
+                0.2em 0 0 #ffffff7f inset;
+    }
+    label:last-child input:checked {
+        box-shadow:
+                0.1em 0 0 #272626af inset,
+                -0.1em 0 0 #272626 inset,
+                0 -0.1em 0 #722257 inset,
+                0 0.1em 0 #847a62 inset,
+                -0.1em 0 0 #847a62 inset,
+                0 -0.1em 0 #ffffff3f,
+                0 0.1em 0 #ffffff7f,
+                -0.1em -0.1em 0 0.1em #ffffff7f inset;
+    }
+    input {
+        background-image: linear-gradient(#ffffff 33%,#414751 58%,#837b52,#c5baa1,#c3adaa);
+        border-radius: 0;
+        box-shadow:
+                0.1em 0 0 #2726267f inset,
+                -0.1em 0 0 #27262600 inset,
+                0 0.1em 0 #afa490 inset,
+                0 -0.1em 0 #ffffff3f,
+                0 0.2em 0.5em #0000007f,
+                0 -0.1em 0 #926086 inset,
+                -0.1em -0.2em 0 #ffffff7f inset;
+        cursor: pointer;
+        display: block;
+        margin-bottom: 0.5em;
+        width: 100%;
+        height: 1em;
+        transition: box-shadow var(--transDur) ease-in-out;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+    input:checked {
+        background-image: linear-gradient(#ffffff 33%,#414751 58%,#827a7b,#c0b6ac,#c3adaa);
+        box-shadow:
+                0.1em 0 0 #272626af inset,
+                -0.1em 0 0 #272626 inset,
+                0 0.1em 0 #847a62 inset,
+                0 -0.1em 0 #ffffff3f,
+                0 0.1em 0 #ffffff7f,
+                0 -0.1em 0 #722257 inset,
+                -0.1em -0.2em 0 #ffffff7f inset;
+    }
+    input:checked + span {
+        opacity: 1;
+    }
+    input:focus {
+        outline: transparent;
+    }
+    input + span {
+        opacity: 0.65;
+        transition: opacity var(--transDur) ease-in-out;
+    }
+
+    /* Dark mode */
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --bg: #5c6270;
+            --fg: #e3e4e8;
+        }
+        label:first-child input {
+            box-shadow:
+                    0.1em 0 0 #2726267f inset,
+                    -0.1em 0 0 #27262600 inset,
+                    0 0.1em 0 #afa490 inset,
+                    0 -0.1em 0 #0000001f,
+                    0 0.2em 0.5em #0000007f,
+                    0 -0.1em 0 #926086 inset,
+                    -0.1em -0.2em 0 #ffffff7f inset,
+                    0.2em 0 0 #ffffff7f inset;
+        }
+        label:last-child input {
+            box-shadow:
+                    0 -0.1em 0 #926086 inset,
+                    0.1em 0 0 #2726267f inset,
+                    -0.1em 0 0 #2726267f inset,
+                    0 0.1em 0 #afa490 inset,
+                    -0.1em 0 0 #afa490 inset,
+                    0 -0.1em 0 #0000001f,
+                    0 0.2em 0.5em #0000007f,
+                    -0.1em -0.1em 0 0.1em #ffffff7f inset;
+        }
+        label:first-child input:checked {
+            box-shadow:
+                    0.1em 0 0 #272626af inset,
+                    -0.1em 0 0 #272626 inset,
+                    0 0.1em 0 #847a62 inset,
+                    0 -0.1em 0 #0000007f,
+                    0 0.1em 0 #0000007f,
+                    0 -0.1em 0 #722257 inset,
+                    -0.1em -0.2em 0 #ffffff7f inset,
+                    0.2em 0 0 #ffffff7f inset
+        }
+        label:last-child input:checked {
+            box-shadow:
+                    0.1em 0 0 #272626af inset,
+                    -0.1em 0 0 #272626 inset,
+                    0 -0.1em 0 #722257 inset,
+                    0 0.1em 0 #847a62 inset,
+                    -0.1em 0 0 #847a62 inset,
+                    0 -0.1em 0 #0000001f,
+                    0 0.1em 0 #0000007f,
+                    -0.1em -0.1em 0 0.1em #ffffff7f inset;
+        }
+        input {
+            box-shadow:
+                    0.1em 0 0 #2726267f inset,
+                    -0.1em 0 0 #27262600 inset,
+                    0 0.1em 0 #afa490 inset,
+                    0 -0.1em 0 #0000001f,
+                    0 0.2em 0.5em #0000007f,
+                    0 -0.1em 0 #926086 inset,
+                    -0.1em -0.2em 0 #ffffff7f inset;
+        }
+        input:checked {
+            box-shadow:
+                    0.1em 0 0 #272626af inset,
+                    -0.1em 0 0 #272626af inset,
+                    0 0.1em 0 #847a62 inset,
+                    0 -0.1em 0 #0000007f,
+                    0 0.1em 0 #0000007f,
+                    0 -0.1em 0 #722257 inset,
+                    -0.1em -0.2em 0 #ffffff7f inset;
+        }
+    }
+</style>
