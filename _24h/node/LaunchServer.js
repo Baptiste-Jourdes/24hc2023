@@ -71,7 +71,7 @@ function Init() {
             })
 
             var trame = {RSSI: [3,5], IR: [9,2], SIMU: [11, 7] ,HEADLIGHTS: [17, 3], COLOR: [3,7], BATTERY: [11,5], IMU: [15, 13] ,PILOTS: [28, 6]};
-
+            var data = {Battery: 100, Vitesse: 0}
             socketReceive.on('message', (msg, remote) => {
                 if(remote.address == selectedCar[0]) {
                     console.log(remote.address)
@@ -85,8 +85,12 @@ function Init() {
                         var temp = Battery[1]
                         Battery[1] = Battery[0]
                         Battery[0] = temp
-                        console.log(parseInt(Battery, 16))
-                        console.log(100 - parseInt(Battery, 16) /100)
+                        console.log(parseInt(Battery.toString('hex'),16))
+                        console.log(100 - parseInt(Battery.toString('hex'),16) /100)
+                        Battery = 100 - parseInt(Battery.toString('hex'),16) /100;
+                        data.Battery = Battery
+                        socket.emit("baterie",Battery);
+
                     }
                     if (msg.length == 20) { //20
                         console.log(msg.slice(trame.IMU[0], trame.IMU[0] + trame.IMU[1]))
