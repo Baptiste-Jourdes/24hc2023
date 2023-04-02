@@ -1,7 +1,7 @@
 const  dgram=require('dgram');
 const mdns = require('mdns-js');
 const serviceType = '_carnode._udp.local';
-const name = 'CarNode-Simu8._arduino._tcp.local';
+const name = 'CarNode-Simu6._arduino._tcp.local';
 
 // Recherchez les services mDNS
 const browser = mdns.createBrowser(serviceType);
@@ -36,13 +36,16 @@ browser.on('update', function(data) {
     socket.on("listening", function() {
       this.setBroadcast(true);
    //   this.setMulticastTTL(128);
-      this.addMembership('224.0.0.251');
+      this.addMembership('239.255.0.1');
       console.log('Multicast listening . . . ')
     })
 
-
+    var trame = {RSSI: [3,5], IR: [9,2], SIMU: [11, 7] ,HEADLIGHTS: [17, 3], COLOR: [3,7], BATTERY: [11,5], IMU: [15, 13] ,PILOTS: [28, 6]};
+	var hasfirst = false;
     socket.on('message', (msg, remote) => {
-      console.log(msg.toString().trim())
+      console.log(msg)
+      
+
     })
 
     const client = dgram.createSocket('udp4');
