@@ -34,7 +34,7 @@ void StatusCast::loop() {
 			msg[len++] = (rssi >>  8) & 0xFF;
 			msg[len++] = (rssi >> 16) & 0xFF;
 			msg[len++] = (rssi >> 24) & 0xFF;
-			break;
+			break;msg.slice(14, 17)msg.slice(14, 17)
 		}
 		case STATUS_IR: {
 			msg[len++] = STATUS_IR;

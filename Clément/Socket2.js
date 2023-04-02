@@ -65,7 +65,6 @@ function Server()
             if (msg.length == 34) { //20
                 //console.log(msg.slice(trame.RSSI[0], trame.RSSI[0]+trame.RSSI[1]).toString('hex'));
                 //if (msg.slice(trame.RSSI[0], trame.RSSI[0] + trame.RSSI[1]).toString('hex') == '01c2ffffff') {
-
                     console.log(msg.slice(trame.COLOR[0], trame.COLOR[0] + trame.COLOR[1]))
                 //}
             }
