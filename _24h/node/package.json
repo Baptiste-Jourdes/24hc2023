@@ -2,6 +2,7 @@
   "dependencies": {
     "bonjour": "^3.5.0",
     "bonjour-service": "^1.1.1",
+    "dgram": "^1.0.1",
     "express": "^4.18.2",
     "mdns-js": "^1.0.3",
     "socket.io": "^4.6.1",
